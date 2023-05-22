@@ -18,7 +18,9 @@ public class EditTextWithClear extends AppCompatEditText {
     Drawable mClearButton;
 
     private void init () {
-    mClearButton = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_clear_copaque_24dp, null);
+        // Mengambil drawable transparat untuk di inisiasi di semua constructor
+    mClearButton = ResourcesCompat.getDrawable(
+            getResources(), R.drawable.ic_clear_copaque_24dp, null);
 
     addTextChangedListener(new TextWatcher() {
         @Override
@@ -47,9 +49,21 @@ public class EditTextWithClear extends AppCompatEditText {
 
                 boolean isButtonClicked = false;
 
-                if (motionEvent.getX() > clearButtonStartPosition) {
-                    isButtonClicked = true;
+//                if (motionEvent.getX() > clearButtonStartPosition) {
+//                    isButtonClicked = true;
+//                }
+
+                if (getLayoutDirection() == LAYOUT_DIRECTION_RTL) {
+                    if (motionEvent.getX() < clearButtonStartPosition) {
+                        isButtonClicked = true;
+                    }
                 }
+                else {
+                    if (motionEvent.getX() > clearButtonStartPosition) {
+                        isButtonClicked = true;
+                    }
+                }
+
 
                 if (isButtonClicked) {
                     if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
@@ -91,7 +105,7 @@ public class EditTextWithClear extends AppCompatEditText {
     }
 
     private void showClearButton() {
-        // Mau menambhakan componen drawable ke componen edit text... Karena kita ingin meletakkan di kanan, maka yang diisi bagian end-nya
+        // Mau menambahakan componen drawable ke componen edit text... Karena kita ingin meletakkan di kanan, maka yang diisi bagian end-nya
         setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, mClearButton, null);
     }
 
